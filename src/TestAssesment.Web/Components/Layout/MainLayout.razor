@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+
+<MudLayout>
+    <MudThemeProvider Theme="_theme" @bind-IsDarkMode="_isDarkMode"/>
+    <MudPopoverProvider/>
+    <MudAppBar Fixed="false" Color="Color.Transparent" Elevation="0">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <MudLink Underline="Underline.None" Href="/">
+                <MudText Color="Color.Primary" Align="Align.Left" Typo="Typo.h5">MovieFinder</MudText>
+            </MudLink>
+        </MudContainer>
+    </MudAppBar>
+
+    <MudMainContent Class="pa-0">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>

@@ -1,0 +1,65 @@
+﻿<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-12">
+    @if (!string.IsNullOrEmpty(Movie.Plot) && Movie.Plot != "N/A")
+    {
+        <div class="mb-12">
+            <MudText Typo="Typo.h4" Class="font-weight-bold mb-6">Plot Summary</MudText>
+            <MudText Typo="Typo.h6" Style="color: rgba(255, 255, 255, 0.85); line-height: 1.8;">@Movie.Plot</MudText>
+        </div>
+    }
+
+    <MudGrid Spacing="6">
+        @if (!string.IsNullOrEmpty(Movie.Actors) && Movie.Actors != "N/A")
+        {
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.h4" Class="font-weight-bold mb-6">Cast</MudText>
+                <MudGrid Spacing="3">
+                    @foreach (var actor in Movie.Actors.Split(',').Select(a => a.Trim()))
+                    {
+                        <MudItem xs="12" sm="6">
+                            <MudPaper Elevation="0" Class="pa-4 d-flex align-center gap-3 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05)">
+                                <MudAvatar Size="Size.Large"
+                                           Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    @GetInitials(actor)
+                                </MudAvatar>
+                                <MudText Typo="Typo.body1" Class="font-weight-medium"
+                                >@actor</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudItem>
+        }
+
+        <MudItem xs="12" md="6">
+            <MudText Typo="Typo.h4" Class="font-weight-bold mb-6">Crew</MudText>
+            <MudStack Spacing="2">
+                @if (!string.IsNullOrEmpty(Movie.Director) && Movie.Director != "N/A")
+                {
+                    <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between rounded-lg"
+                              Style="background: rgba(255, 255, 255, 0.05)">
+                        <MudText Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Director</MudText>
+                        <MudText>@Movie.Director</MudText>
+                    </MudPaper>
+                }
+                @if (!string.IsNullOrEmpty(Movie.Writer) && Movie.Writer != "N/A")
+                {
+                    <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between rounded-lg"
+                              Style="background: rgba(255, 255, 255, 0.05);">
+                        <MudText Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Writer</MudText>
+                        <MudText>@Movie.Writer</MudText>
+                    </MudPaper>
+                }
+                @if (!string.IsNullOrEmpty(Movie.Production) && Movie.Production != "N/A")
+                {
+                    <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between"
+                              Style="background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <MudText Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Production
+                        </MudText>
+                        <MudText>@Movie.Production</MudText>
+                    </MudPaper>
+                }
+            </MudStack>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

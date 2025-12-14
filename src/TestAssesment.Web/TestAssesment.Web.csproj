@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MudBlazor" Version="8.15.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="AIDesign\" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,57 @@
+﻿<MudPaper Elevation="0" Class="pa-12" Style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+        <MudGrid Spacing="6">
+            <MudItem xs="12" md="3">
+                <MudPaper Elevation="8" Class="rounded-lg overflow-hidden">
+                    <MudImage Src="@Movie.Poster" Alt="@Movie.Title" Class="d-block"
+                              Style="width: 100%; height: auto;"/>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" md="9" Class="d-flex flex-column justify-center">
+                <MudText Typo="Typo.h2" Class="font-weight-bold mb-4" Style="color: white;">@Movie.Title</MudText>
+
+                <div class="d-flex align-center gap-3 mb-4">
+                    @if (!string.IsNullOrEmpty(Movie.Year) && Movie.Year != "N/A")
+                    {
+                        <MudText Typo="Typo.h6" Style="color: rgba(255, 255, 255, 0.8);">@Movie.Year</MudText>
+                    }
+                    <MudText Style="color: rgba(255, 255, 255, 0.4);">•</MudText>
+                    @if (!string.IsNullOrEmpty(Movie.Runtime) && Movie.Runtime != "N/A")
+                    {
+                        <MudText Typo="Typo.h6" Style="color: rgba(255, 255, 255, 0.8);">@Movie.Runtime</MudText>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.Rated) && Movie.Rated != "N/A")
+                    {
+                        <MudText Style="color: rgba(255, 255, 255, 0.4);">•</MudText>
+                        <MudChip T="string" Size="Size.Medium"
+                                 Style="background: rgba(255, 255, 255, 0.2); color: white; font-weight: 600;">@Movie.Rated</MudChip>
+                    }
+                </div>
+
+                @if (!string.IsNullOrEmpty(Movie.Genre) && Movie.Genre != "N/A")
+                {
+                    <div class="d-flex gap-2 mb-6">
+                        @foreach (var genre in Movie.Genre.Split(',').Select(g => g.Trim()))
+                        {
+                            <MudChip T="string" Size="Size.Medium"
+                                     Style="background: rgba(102, 126, 234, 0.3); color: white; border: 1px solid rgba(102, 126, 234, 0.5);">@genre</MudChip>
+                        }
+                    </div>
+                }
+
+                <div class="d-flex gap-8 mb-6">
+                    @if (!string.IsNullOrEmpty(Movie.ImdbRating) && Movie.ImdbRating != "N/A")
+                    {
+                        <div class="text-center">
+                            <MudText Typo="Typo.h2" Class="font-weight-bold"
+                                     Style="color: #ffd700;">@Movie.ImdbRating</MudText>
+                            <MudRating MaxValue="5" SelectedValue="@GetStarRating(Movie.ImdbRating)" ReadOnly="true"
+                                       Color="Color.Warning" Size="Size.Medium"/>
+                            <MudText Typo="Typo.caption" Style="color: rgba(255, 255, 255, 0.6);">IMDb Rating</MudText>
+                        </div>
+                    }
+                </div>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudPaper>

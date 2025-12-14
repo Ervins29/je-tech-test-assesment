@@ -1,0 +1,210 @@
+﻿@page "/MovieDetails/{MovieId}"
+@using TestAssesment.Web.Components.Pages.MovieDetailsPage.Components
+
+<PageTitle>@Movie?.Title - MovieFinder</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-0">
+    @if (IsLoading)
+    {
+        <MudCard Elevation="2">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="400px" Animation="Animation.Wave"/>
+            <MudCardContent>
+                <MudSkeleton Width="60%" Height="32px" Class="mb-2"/>
+                <MudSkeleton Width="80px" Height="24px" Class="mb-3"/>
+                <div class="d-flex align-center mb-2">
+                    <MudSkeleton SkeletonType="SkeletonType.Circle" Width="20px" Height="20px"/>
+                    <MudSkeleton Width="120px" Height="20px" Class="ml-1"/>
+                </div>
+                <div class="d-flex align-center mb-2">
+                    <MudSkeleton SkeletonType="SkeletonType.Circle" Width="20px" Height="20px"/>
+                    <MudSkeleton Width="80px" Height="20px" Class="ml-1"/>
+                </div>
+                <MudSkeleton Width="70%" Height="20px" Class="mb-2"/>
+                <MudSkeleton Width="80%" Height="20px" Class="mb-2"/>
+                <MudSkeleton Width="100%" Height="60px" Class="mt-3"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudSkeleton Width="120px" Height="36px" Class="ml-2"/>
+                <MudSkeleton Width="80px" Height="36px" Class="ml-2"/>
+            </MudCardActions>
+        </MudCard>
+    }
+    else
+    {
+        <HeroBlock Movie="Movie"/>
+
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-12">
+            @if (!string.IsNullOrEmpty(Movie.Plot) && Movie.Plot != "N/A")
+            {
+                <div class="mb-12">
+                    <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mb-6">Plot Summary</MudText>
+                    <MudText Typo="Typo.h6"
+                             Style="color: rgba(255, 255, 255, 0.85); line-height: 1.8;">@Movie.Plot</MudText>
+                </div>
+            }
+
+            <MudGrid Spacing="6">
+                @if (!string.IsNullOrEmpty(Movie.Actors) && Movie.Actors != "N/A")
+                {
+                    <MudItem xs="12" md="6">
+                        <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mb-6">Cast</MudText>
+                        <MudGrid Spacing="3">
+                            @foreach (var actor in Movie.Actors.Split(',').Select(a => a.Trim()))
+                            {
+                                <MudItem xs="12" sm="6">
+                                    <MudPaper Elevation="0" Class="pa-4 d-flex align-center gap-3 rounded-lg"
+                                              Style="background: rgba(255, 255, 255, 0.05)">
+                                        <MudAvatar Color="Color.Primary" Size="Size.Large"
+                                                   Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                            @GetInitials(actor)
+                                        </MudAvatar>
+                                        <MudText Typo="Typo.body1" Color="Color.Primary" Class="font-weight-medium"
+                                        >@actor</MudText>
+                                    </MudPaper>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudItem>
+                }
+
+                <MudItem xs="12" md="6">
+                    <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mb-6">Crew</MudText>
+                    <MudStack Spacing="2">
+                        @if (!string.IsNullOrEmpty(Movie.Director) && Movie.Director != "N/A")
+                        {
+                            <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05)">
+                                <MudText Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Director
+                                </MudText>
+                                <MudText Color="Color.Primary">@Movie.Director</MudText>
+                            </MudPaper>
+                        }
+                        @if (!string.IsNullOrEmpty(Movie.Writer) && Movie.Writer != "N/A")
+                        {
+                            <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Writer
+                                </MudText>
+                                <MudText Color="Color.Primary">@Movie.Writer</MudText>
+                            </MudPaper>
+                        }
+                        @if (!string.IsNullOrEmpty(Movie.Production) && Movie.Production != "N/A")
+                        {
+                            <MudPaper Elevation="0" Class="pa-4 d-flex justify-space-between rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Color="Color.Primary" Class="font-weight-medium" Style="color: rgba(255, 255, 255, 0.6);">Production
+                                </MudText>
+                                <MudText Color="Color.Primary">@Movie.Production</MudText>
+                            </MudPaper>
+                        }
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+            
+            <div class="mt-12">
+                <MudText Typo="Typo.h4" Color="Color.Primary" Class="font-weight-bold mb-6">Additional Information
+                </MudText>
+                <MudGrid Spacing="3">
+                    @if (!string.IsNullOrEmpty(Movie.Released) && Movie.Released != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    Release Date
+                                </MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Primary" Class="font-weight-medium"
+                                >@Movie.Released</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.BoxOffice) && Movie.BoxOffice != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    Box Office
+                                </MudText>
+                                <MudText Typo="Typo.h6" Class="font-weight-medium" Color="Color.Primary"
+                                >@Movie.BoxOffice</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.Language) && Movie.Language != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    Language
+                                </MudText>
+                                <MudText Typo="Typo.h6" Class="font-weight-medium" Color="Color.Primary"
+                                >@Movie.Language</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.Country) && Movie.Country != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    Country
+                                </MudText>
+                                <MudText Typo="Typo.h6" Class="font-weight-medium" Color="Color.Primary"
+                                >@Movie.Country</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.Awards) && Movie.Awards != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    Awards
+                                </MudText>
+                                <MudText Typo="Typo.h6" Class="font-weight-medium" Color="Color.Primary"
+                                >@Movie.Awards</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                    @if (!string.IsNullOrEmpty(Movie.ImdbVotes) && Movie.ImdbVotes != "N/A")
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudPaper Elevation="0" Class="pa-6 rounded-lg"
+                                      Style="background: rgba(255, 255, 255, 0.05);">
+                                <MudText Typo="Typo.caption" Class="font-weight-medium mb-2"
+                                         Style="color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1px;">
+                                    IMDb Votes
+                                </MudText>
+                                <MudText Typo="Typo.h6" Class="font-weight-medium" Color="Color.Primary"
+                                >@Movie.ImdbVotes</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Movie.ImdbId))
+            {
+                <div class="mt-8">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Secondary"
+                               Href="@($"https://www.imdb.com/title/{Movie.ImdbId}")"
+                               Target="_blank"
+                               StartIcon="@Icons.Material.Filled.OpenInNew"
+                               Size="Size.Large">
+                        View on IMDb
+                    </MudButton>
+                </div>
+            }
+        </MudContainer>
+    }
+</MudContainer>

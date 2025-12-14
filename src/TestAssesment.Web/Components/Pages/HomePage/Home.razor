@@ -1,0 +1,74 @@
+@page "/"
+@using TestAssesment.Web.Components.Pages.HomePage.Components
+
+<PageTitle>MovieFinder - Discover Your Next Favorite Movie</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Style="min-height: 60vh">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex flex-column">
+        
+        <MudStack AlignItems="AlignItems.Center" Class="mb-2 flex-1">
+            <MudText Typo="Typo.h1" Color="Color.Primary" Align="Align.Center" Class="mb-6" Style="font-weight: 800; text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);">
+                Discover Your Next Favorite Movie
+            </MudText>
+            <MudText Typo="Typo.h5" Class="mb-6" Style="color: rgba(255, 255, 255, 0.9);">
+                Search from millions of movies worldwide
+            </MudText>
+            
+            <MudPaper Elevation="5" Class="pa-2 rounded-pill mb-6" Style="width: 100%; max-width: 700px;">
+                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                    <MudIcon Icon="@Icons.Material.Filled.Search" Style="color: #999;" />
+                    <MudTextField @bind-Value="SearchText"
+                                  Placeholder="Search for movies by title..."
+                                  Variant="Variant.Text"
+                                  Underline="false"
+                                  Immediate="true"
+                                  Class="flex-1"
+                                  OnKeyDown="HandleKeyDown"/>
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               class="rounded-pill py-4 px-9"
+                               Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-weight: 600; text-transform: none;"
+                               OnClick="HandleSearch">
+                        Search
+                    </MudButton>
+                </MudStack>
+            </MudPaper>
+
+            @* Popular Searches *@
+            @* <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Wrap="Wrap.Wrap" Justify="Justify.Center"> *@
+            @*     <MudText Style="color: rgba(255, 255, 255, 0.8); font-weight: 600;">Popular:</MudText> *@
+            @*     <MudChip OnClick='() => SearchMovieByTitle("Inception")' *@
+            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
+            @*         Inception *@
+            @*     </MudChip> *@
+            @*     <MudChip OnClick='() => SearchMovieByTitle("The Godfather")' *@
+            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
+            @*         The Godfather *@
+            @*     </MudChip> *@
+            @*     <MudChip OnClick='() => SearchMovieByTitle("Interstellar")' *@
+            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
+            @*         Interstellar *@
+            @*     </MudChip> *@
+            @*     <MudChip OnClick='() => SearchMovieByTitle("The Matrix")' *@
+            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
+            @*         The Matrix *@
+            @*     </MudChip> *@
+            @* </MudStack> *@
+
+            @* Search Results *@
+            @if (SearchResult?.Error is not null)
+            {
+                <MudAlert Severity="Severity.Error" Style="width: 100%; max-width: 700px; margin-top: 2rem;">
+                    @SearchResult.Error
+                </MudAlert>
+            }
+
+            @if (SearchResult is not null && SearchResult.Response)
+            {
+                <MudPaper Class="mt-6 rounded-xl" Style="max-width: 700px;">
+                    <MovieCard Movie="@SearchResult"/>
+                </MudPaper>
+            }
+        </MudStack>
+    </MudContainer>
+</MudContainer>
