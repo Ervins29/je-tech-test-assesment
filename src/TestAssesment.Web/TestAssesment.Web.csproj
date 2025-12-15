@@ -8,15 +8,22 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TestAssesment.Data.DataAccess\TestAssesment.Data.DataAccess.csproj" />
+      <ProjectReference Include="..\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj" />
       <ProjectReference Include="..\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="MudBlazor" Version="8.15.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="AIDesign\" />
+      <Folder Include="Models\" />
     </ItemGroup>
 
 </Project>

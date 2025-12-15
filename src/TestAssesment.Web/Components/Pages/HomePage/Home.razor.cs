@@ -1,18 +1,27 @@
-﻿using Microsoft.AspNetCore.Components.Web;
-using TestAssesment.Integrations.Omdb.Interfaces;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using TestAssesment.Data.Services.Models;
 using TestAssesment.Integrations.Omdb.Models;
+using TestAssesment.Web.Services;
 
 namespace TestAssesment.Web.Components.Pages.HomePage;
 
-public partial class Home(IOmdbClient omdbClient, ILogger<Home> logger)
+public partial class Home(SearchService searchService, NavigationManager navigationManager, ILogger<Home> logger)
 {
     private const int MinSearchLength = 3;
 
     public string SearchText { get; set; }
 
-    public OmdbMovie? SearchResult { get; set; }
+    private OmdbMovie? SearchResult { get; set; }
 
-    public async Task SearchMovies(string searchText)
+    private List<SavedSearchDto> SavedSearchDtos { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetRecentSearches();
+    }
+
+    private async Task SearchMovies(string searchText)
     {
         searchText = searchText.Trim();
 
@@ -26,10 +35,12 @@ public partial class Home(IOmdbClient omdbClient, ILogger<Home> logger)
             return;
         }
 
-        var searchResult = await omdbClient.SearchMovies(title: searchText);
+        var searchResult = await searchService.SearchMovie(searchText);
 
         SearchResult = searchResult;
 
+        await GetRecentSearches();
+        
         StateHasChanged();
     }
 
@@ -47,5 +58,15 @@ public partial class Home(IOmdbClient omdbClient, ILogger<Home> logger)
         {
             await HandleSearch();
         }
+    }
+
+    public void NavigateToMovieDetails(string imdbId)
+    {
+        navigationManager.NavigateTo($"/MovieDetails/{imdbId}");
+    }
+    
+    private async Task GetRecentSearches()
+    {
+        SavedSearchDtos = await searchService.GetRecentSearches();
     }
 }

@@ -33,29 +33,21 @@
                     </MudButton>
                 </MudStack>
             </MudPaper>
-
-            @* Popular Searches *@
-            @* <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Wrap="Wrap.Wrap" Justify="Justify.Center"> *@
-            @*     <MudText Style="color: rgba(255, 255, 255, 0.8); font-weight: 600;">Popular:</MudText> *@
-            @*     <MudChip OnClick='() => SearchMovieByTitle("Inception")' *@
-            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
-            @*         Inception *@
-            @*     </MudChip> *@
-            @*     <MudChip OnClick='() => SearchMovieByTitle("The Godfather")' *@
-            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
-            @*         The Godfather *@
-            @*     </MudChip> *@
-            @*     <MudChip OnClick='() => SearchMovieByTitle("Interstellar")' *@
-            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
-            @*         Interstellar *@
-            @*     </MudChip> *@
-            @*     <MudChip OnClick='() => SearchMovieByTitle("The Matrix")' *@
-            @*              Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;"> *@
-            @*         The Matrix *@
-            @*     </MudChip> *@
-            @* </MudStack> *@
-
-            @* Search Results *@
+            
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Wrap="Wrap.Wrap" Justify="Justify.Center">
+                @if (SavedSearchDtos.Count > 0)
+                {
+                    <MudText Style="color: rgba(255, 255, 255, 0.8); font-weight: 600;">Recent searches:</MudText>
+                }
+                @foreach (var savedSearch in SavedSearchDtos)
+                {
+                    <MudChip T="string" OnClick='() => NavigateToMovieDetails(savedSearch.ImdbId)'
+                             Style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.3); cursor: pointer;">
+                        @savedSearch.Title
+                    </MudChip>
+                }
+            </MudStack>
+            
             @if (SearchResult?.Error is not null)
             {
                 <MudAlert Severity="Severity.Error" Style="width: 100%; max-width: 700px; margin-top: 2rem;">

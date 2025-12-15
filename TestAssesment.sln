@@ -6,6 +6,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssesment.Integrations.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssesment.Web", "src\TestAssesment.Web\TestAssesment.Web.csproj", "{3AA6DB3F-4350-45A9-8416-127D4DF3AB47}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{6EC93ABF-9D47-40D0-B375-5CD0C62EE109}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssesment.Data.DataAccess", "src\TestAssesment.Data.DataAccess\TestAssesment.Data.DataAccess.csproj", "{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAssesment.Data.Services", "src\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj", "{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +26,18 @@ Global
 		{3AA6DB3F-4350-45A9-8416-127D4DF3AB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AA6DB3F-4350-45A9-8416-127D4DF3AB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AA6DB3F-4350-45A9-8416-127D4DF3AB47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9150E6CE-8AF0-45D1-BC50-9E0E9E9C73A4} = {64BE47AB-0A61-44E8-BC75-B66E77B271DD}
+		{1E9FAF6E-C3AF-44FE-8D6A-8E81046CB2E7} = {6EC93ABF-9D47-40D0-B375-5CD0C62EE109}
+		{237AFF56-E9AD-4F81-AA8F-57CCF2CCA48E} = {6EC93ABF-9D47-40D0-B375-5CD0C62EE109}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,9 @@
 using MudBlazor.Services;
+using TestAssesment.Data.DataAccess.Extensions;
+using TestAssesment.Data.Services.Extensions;
 using TestAssesment.Integrations.Omdb.Extensions;
 using TestAssesment.Web.Components;
+using TestAssesment.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddDataAccess(configuration);
+builder.Services.AddDataServices();
+
+builder.Services.AddTransient<SearchService>();
 
 builder.Services.AddOmdbApi(configuration);
 
