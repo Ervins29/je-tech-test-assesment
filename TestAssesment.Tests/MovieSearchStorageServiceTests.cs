@@ -61,13 +61,11 @@ public class MovieSearchStorageServiceTests
 
         var recentMovies = await MovieSearchStorageService.GetRecentSearches();
 
-        var recentMoviesList = recentMovies.ToList();
+        recentMovies.ShouldNotBeNull();
 
-        recentMoviesList.ShouldNotBeNull();
+        var savedMovie = recentMovies.Last();
 
-        var savedMovie = recentMoviesList.Last();
-
-        recentMoviesList.Count.ShouldBe(5);
+        recentMovies.Count.ShouldBe(5);
         savedMovie?.Title.ShouldBe("Test Movie");
         savedMovie?.ImdbId.ShouldBe("55555");
     }
@@ -82,12 +80,10 @@ public class MovieSearchStorageServiceTests
 
         var recentMovies = await MovieSearchStorageService.GetRecentSearches();
 
-        var recentMoviesList = recentMovies.ToList();
+        recentMovies.ShouldNotBeNull();
+        recentMovies.Count.ShouldBeLessThanOrEqualTo(4);
 
-        recentMoviesList.ShouldNotBeNull();
-        recentMoviesList.Count.ShouldBeLessThanOrEqualTo(4);
-
-        recentMoviesList
+        recentMovies
             .Count(x => x is { Title: existingMovieTitle, ImdbId: existingMovieId })
             .ShouldBeLessThanOrEqualTo(1);
     }
@@ -105,13 +101,11 @@ public class MovieSearchStorageServiceTests
 
         var recentMovies = await MovieSearchStorageService.GetRecentSearches();
 
-        var recentMoviesList = recentMovies.ToList();
-
-        recentMoviesList.ShouldNotBeNull();
-        recentMoviesList.Count.ShouldBeLessThanOrEqualTo(5);
-        recentMoviesList.ShouldContain(x => x.Title == testMovie);
-        recentMoviesList.ShouldContain(x => x.Title == testMovie2);
-        recentMoviesList.ShouldNotContain(x => x.Title == oldestMovieTitle);
+        recentMovies.ShouldNotBeNull();
+        recentMovies.Count.ShouldBeLessThanOrEqualTo(5);
+        recentMovies.ShouldContain(x => x.Title == testMovie);
+        recentMovies.ShouldContain(x => x.Title == testMovie2);
+        recentMovies.ShouldNotContain(x => x.Title == oldestMovieTitle);
     }
 
     [Fact]
@@ -119,21 +113,19 @@ public class MovieSearchStorageServiceTests
     {
         var recentMovies = await MovieSearchStorageService.GetRecentSearches();
 
-        var recentMoviesList = recentMovies.ToList();
+        recentMovies.ShouldNotBeNull();
+        recentMovies.Count.ShouldBeLessThanOrEqualTo(4);
 
-        recentMoviesList.ShouldNotBeNull();
-        recentMoviesList.Count.ShouldBeLessThanOrEqualTo(4);
+        recentMovies.ShouldContain(x => x.Title == "The Matrix");
+        recentMovies.ShouldContain(x => x.ImdbId == "111");
 
-        recentMoviesList.ShouldContain(x => x.Title == "The Matrix");
-        recentMoviesList.ShouldContain(x => x.ImdbId == "111");
+        recentMovies.ShouldContain(x => x.Title == "Titanic");
+        recentMovies.ShouldContain(x => x.ImdbId == "222");
 
-        recentMoviesList.ShouldContain(x => x.Title == "Titanic");
-        recentMoviesList.ShouldContain(x => x.ImdbId == "222");
+        recentMovies.ShouldContain(x => x.Title == "Test assesment movie");
+        recentMovies.ShouldContain(x => x.ImdbId == "333");
 
-        recentMoviesList.ShouldContain(x => x.Title == "Test assesment movie");
-        recentMoviesList.ShouldContain(x => x.ImdbId == "333");
-
-        recentMoviesList.ShouldContain(x => x.Title == "Unknown movie");
-        recentMoviesList.ShouldContain(x => x.ImdbId == "444");
+        recentMovies.ShouldContain(x => x.Title == "Unknown movie");
+        recentMovies.ShouldContain(x => x.ImdbId == "444");
     }
 }

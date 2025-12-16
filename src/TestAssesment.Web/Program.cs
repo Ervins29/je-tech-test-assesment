@@ -21,7 +21,7 @@ builder.Services.AddMudServices();
 builder.Services.AddDataAccess(configuration);
 builder.Services.AddDataServices();
 
-builder.Services.AddTransient<SearchService>();
+builder.Services.AddScoped<ISearchService ,SearchService>();
 
 builder.Services.AddOmdbApi(configuration);
 

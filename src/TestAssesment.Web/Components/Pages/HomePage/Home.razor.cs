@@ -6,11 +6,11 @@ using TestAssesment.Web.Services;
 
 namespace TestAssesment.Web.Components.Pages.HomePage;
 
-public partial class Home(SearchService searchService, NavigationManager navigationManager, ILogger<Home> logger)
+public partial class Home(ISearchService searchService, NavigationManager navigationManager, ILogger<Home> logger)
 {
     private const int MinSearchLength = 3;
 
-    public string SearchText { get; set; }
+    public string SearchText { get; set; } = string.Empty;
 
     private OmdbMovie? SearchResult { get; set; }
 
@@ -25,16 +25,16 @@ public partial class Home(SearchService searchService, NavigationManager navigat
     {
         searchText = searchText.Trim();
 
-        SearchText = searchText;
-
-        logger.LogInformation($"Searching for {SearchText}");
-
         if (searchText.Length < MinSearchLength)
         {
             SearchResult = null;
             return;
         }
 
+        SearchText = searchText;
+
+        logger.LogInformation($"Searching for {SearchText}");
+        
         var searchResult = await searchService.SearchMovie(searchText);
 
         SearchResult = searchResult;

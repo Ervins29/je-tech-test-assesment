@@ -7,7 +7,7 @@ namespace TestAssesment.Web.Components.Pages.MovieDetailsPage;
 public partial class MovieDetails(IOmdbClient omdbClient, NavigationManager navigationManager)
 {
     [Parameter]
-    public string MovieId { get; set; }
+    public string MovieId { get; set; } = string.Empty;
 
     public OmdbMovie? Movie { get; set; }
 

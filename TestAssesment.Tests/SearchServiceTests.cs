@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Shouldly;
 using TestAssesment.Data.Services;
 using TestAssesment.Integrations.Omdb.Interfaces;
@@ -11,6 +12,8 @@ public class SearchServiceTests
 {
     private readonly Mock<IOmdbClient> _omdbClientMock = new();
     private readonly Mock<IMovieSearchStorageService> _movieSearchStorageServiceMock = new();
+    private readonly Mock<ILogger<SearchService>> _loggerMock = new();
+
 
     private readonly SearchService _searchService;
 
@@ -31,7 +34,7 @@ public class SearchServiceTests
             .Setup(x => x.SearchMovies(It.Is<string>(y => y != expectedMovie.Title)))
             .ReturnsAsync(new OmdbMovie { Response = false });
 
-        _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object);
+        _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object, _loggerMock.Object);
     }
 
     [Fact]

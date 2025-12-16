@@ -9,29 +9,30 @@ public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchSt
 {
     private DbSet<MovieSearchQuery> MovieSearches => dataContext.MovieSearchQueries;
 
-    public async Task<IEnumerable<SavedSearchDto>> GetRecentSearches()
+    public const int MaxSearchCount = 5;
+    
+    public async Task<List<SavedSearchDto>> GetRecentSearches()
     {
-        //Not sure if this needs to be sorted? I assume it not
         var results = await MovieSearches.AsNoTracking().ToListAsync();
 
-        return results.Select(x => new SavedSearchDto(x.MovieTitle, x.ImdbMovieId));
+        return results.Select(x => new SavedSearchDto(x.MovieTitle, x.ImdbMovieId)).ToList();
     }
 
-    public async Task SaveMovieSearch(string searchQuery, string imdbMovieId)
+    public async Task SaveMovieSearch(string movieTitle, string imdbMovieId)
     {
-        var savedMovieSearches = await MovieSearches
-            .OrderByDescending(x => x.TimeStamp)
-            .ToListAsync();
-
-        var existingSearchQuery = savedMovieSearches.FirstOrDefault(x => x.MovieTitle == searchQuery);
+        var existingSearchQuery = await MovieSearches.FirstOrDefaultAsync(x => x.MovieTitle == movieTitle);
 
         if (existingSearchQuery is not null)
         {
             return;
         }
 
-        if (savedMovieSearches.Count == 5)
+        if (await MovieSearches.CountAsync() == MaxSearchCount)
         {
+            var savedMovieSearches = await MovieSearches
+                .OrderByDescending(x => x.TimeStamp)
+                .ToListAsync();
+            
             var oldestSearch = savedMovieSearches.LastOrDefault();
 
             if (oldestSearch is not null)
@@ -40,7 +41,7 @@ public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchSt
             }
         }
         
-        await MovieSearches.AddAsync(new MovieSearchQuery { MovieTitle = searchQuery, ImdbMovieId = imdbMovieId});
+        await MovieSearches.AddAsync(new MovieSearchQuery { MovieTitle = movieTitle, ImdbMovieId = imdbMovieId});
         
         await dataContext.SaveChangesAsync();
     }
@@ -48,7 +49,7 @@ public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchSt
 
 public interface IMovieSearchStorageService
 {
-    Task SaveMovieSearch(string searchQuery, string imdbMovieId);
+    Task SaveMovieSearch(string movieTitle, string imdbMovieId);
 
-    Task<IEnumerable<SavedSearchDto>> GetRecentSearches();
+    Task<List<SavedSearchDto>> GetRecentSearches();
 }

@@ -5,18 +5,34 @@ using TestAssesment.Integrations.Omdb.Models;
 
 namespace TestAssesment.Web.Services;
 
-public class SearchService(IOmdbClient client, IMovieSearchStorageService movieSearchStorageService)
+public class SearchService(IOmdbClient client, IMovieSearchStorageService movieSearchStorageService, ILogger<SearchService> logger) : ISearchService
 {
     public async Task<OmdbMovie> SearchMovie(string title)
     {
-        var searchResult = await client.SearchMovies(title: title);
-
-        if (searchResult.Response)
+        try
         {
-            await movieSearchStorageService.SaveMovieSearch(searchResult.Title, searchResult.ImdbId);
-        }
+            var searchResult = await client.SearchMovies(title: title);
 
-        return searchResult;
+            logger.LogInformation($"Search for {title} returned {searchResult.Title}");
+
+            if (!searchResult.Response) return searchResult;
+            await movieSearchStorageService.SaveMovieSearch(searchResult.Title, searchResult.ImdbId);
+            
+            logger.LogInformation($"Movie {searchResult.Title} saved to recent searches");
+
+            return searchResult;
+        }
+        catch (Exception e)
+        {
+            var errorMessage = $"Error while searching or saving movie {title}";
+            
+            logger.LogError(e, $"Error while searching or saving movie {title}");
+            return new OmdbMovie
+            {
+                Response = false,
+                Error = errorMessage
+            };
+        }
     }
 
     public async Task<List<SavedSearchDto>> GetRecentSearches()
@@ -25,4 +41,11 @@ public class SearchService(IOmdbClient client, IMovieSearchStorageService movieS
 
         return savedSearches.ToList();
     }
+}
+
+public interface ISearchService
+{
+    Task<OmdbMovie> SearchMovie(string title);
+
+    Task<List<SavedSearchDto>> GetRecentSearches();
 }
