@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\TestAssesment.Services\TestAssesment.Services.csproj"/>
         <ProjectReference Include="..\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj"/>
         <ProjectReference Include="..\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj"/>
+        <ProjectReference Include="..\TestAssesment.Services\TestAssesment.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>

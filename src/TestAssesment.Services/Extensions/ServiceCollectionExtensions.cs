@@ -10,6 +10,5 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISearchService, SearchService>();
 
         return services;
-        ;
     }
 }
