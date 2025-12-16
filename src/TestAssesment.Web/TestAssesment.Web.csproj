@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TestAssesment.Data.DataAccess\TestAssesment.Data.DataAccess.csproj" />
+      <ProjectReference Include="..\..\TestAssesment.Services\TestAssesment.Services.csproj" />
       <ProjectReference Include="..\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj" />
       <ProjectReference Include="..\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj" />
     </ItemGroup>
@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <Folder Include="AIDesign\" />
-      <Folder Include="Models\" />
     </ItemGroup>
 
 </Project>

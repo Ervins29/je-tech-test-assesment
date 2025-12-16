@@ -5,7 +5,7 @@ using Shouldly;
 using TestAssesment.Data.Services;
 using TestAssesment.Integrations.Omdb.Interfaces;
 using TestAssesment.Integrations.Omdb.Models;
-using TestAssesment.Web.Services;
+using TestAssesment.Services.Services;
 
 namespace TestAssesment.Tests;
 

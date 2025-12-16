@@ -9,7 +9,7 @@ public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchSt
 {
     private DbSet<MovieSearchQuery> MovieSearches => dataContext.MovieSearchQueries;
 
-    public const int MaxSearchCount = 5;
+    private const int MaxSearchCount = 5;
     
     public async Task<List<SavedSearchDto>> GetRecentSearches()
     {
@@ -20,20 +20,18 @@ public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchSt
 
     public async Task SaveMovieSearch(string movieTitle, string imdbMovieId)
     {
-        var existingSearchQuery = await MovieSearches.FirstOrDefaultAsync(x => x.MovieTitle == movieTitle);
+        var searchExists = await MovieSearches.AnyAsync(x => x.MovieTitle == movieTitle);
 
-        if (existingSearchQuery is not null)
+        if (searchExists)
         {
             return;
         }
 
         if (await MovieSearches.CountAsync() == MaxSearchCount)
         {
-            var savedMovieSearches = await MovieSearches
+            var oldestSearch = await MovieSearches
                 .OrderByDescending(x => x.TimeStamp)
-                .ToListAsync();
-            
-            var oldestSearch = savedMovieSearches.LastOrDefault();
+                .LastOrDefaultAsync();
 
             if (oldestSearch is not null)
             {

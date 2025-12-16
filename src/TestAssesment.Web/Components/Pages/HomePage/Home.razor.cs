@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using TestAssesment.Data.Services.Models;
 using TestAssesment.Integrations.Omdb.Models;
-using TestAssesment.Web.Services;
+using TestAssesment.Services.Services;
 
 namespace TestAssesment.Web.Components.Pages.HomePage;
 

@@ -1,9 +1,10 @@
-﻿using TestAssesment.Data.Services;
+﻿using Microsoft.Extensions.Logging;
+using TestAssesment.Data.Services;
 using TestAssesment.Data.Services.Models;
 using TestAssesment.Integrations.Omdb.Interfaces;
 using TestAssesment.Integrations.Omdb.Models;
 
-namespace TestAssesment.Web.Services;
+namespace TestAssesment.Services.Services;
 
 public class SearchService(IOmdbClient client, IMovieSearchStorageService movieSearchStorageService, ILogger<SearchService> logger) : ISearchService
 {
