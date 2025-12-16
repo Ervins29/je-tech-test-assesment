@@ -17,7 +17,7 @@ public class SearchServiceTests
 
     private readonly SearchService _searchService;
 
-    private OmdbMovie expectedMovie = new()
+    private readonly OmdbMovie _expectedMovie = new()
     {
         Response = true,
         Title = "Test Movie",
@@ -27,11 +27,11 @@ public class SearchServiceTests
     public SearchServiceTests()
     {
         _omdbClientMock
-            .Setup(x => x.SearchMovies(expectedMovie.Title))
-            .ReturnsAsync(expectedMovie);
+            .Setup(x => x.SearchMovies(_expectedMovie.Title))
+            .ReturnsAsync(_expectedMovie);
 
         _omdbClientMock
-            .Setup(x => x.SearchMovies(It.Is<string>(y => y != expectedMovie.Title)))
+            .Setup(x => x.SearchMovies(It.Is<string>(y => y != _expectedMovie.Title)))
             .ReturnsAsync(new OmdbMovie { Response = false });
 
         _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object, _logger);
@@ -45,7 +45,7 @@ public class SearchServiceTests
         var result = await _searchService.SearchMovie(testMovie);
 
         result.Response.ShouldBeTrue();
-        result.Title.ShouldBe(expectedMovie.Title);
+        result.Title.ShouldBe(_expectedMovie.Title);
 
         _movieSearchStorageServiceMock.Verify(
             x => x.SaveMovieSearch(testMovie, "123456789"),
