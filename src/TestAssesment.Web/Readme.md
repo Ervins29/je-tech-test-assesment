@@ -2,15 +2,6 @@
 
 A Blazor Server application that allows users to search for movies using the OMDB API and maintains a history of last 5 searches.
 
-## Features
-
-- Search for movies by title using the OMDB API
-- View detailed movie information including ratings, cast, plot, and more
-- Automatically saves successful searches to local history
-- Maintains up to 5 recent searches (older searches are automatically removed)
-- Prevents duplicate entries in search history
-- Responsive UI built with MudBlazor
-
 ## Technology Stack
 
 - **.NET 10.0** - Framework
@@ -63,10 +54,8 @@ Edit `src/TestAssesment.Web/appsettings.json`:
 cd src/TestAssesment.Web
 dotnet run
 ```
-
-The application will start at `https://localhost:5001` (or the port shown in the console).
-
-### 4. Run Tests
+## Testing
+### Test can be run from the `TestAssesment.Tests` project directory
 
 ```bash
 cd TestAssesment.Tests

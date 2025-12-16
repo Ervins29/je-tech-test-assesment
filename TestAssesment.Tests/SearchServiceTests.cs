@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Shouldly;
 using TestAssesment.Data.Services;
@@ -12,8 +13,7 @@ public class SearchServiceTests
 {
     private readonly Mock<IOmdbClient> _omdbClientMock = new();
     private readonly Mock<IMovieSearchStorageService> _movieSearchStorageServiceMock = new();
-    private readonly Mock<ILogger<SearchService>> _loggerMock = new();
-
+    private readonly ILogger<SearchService> _logger = NullLogger<SearchService>.Instance;
 
     private readonly SearchService _searchService;
 
@@ -34,7 +34,7 @@ public class SearchServiceTests
             .Setup(x => x.SearchMovies(It.Is<string>(y => y != expectedMovie.Title)))
             .ReturnsAsync(new OmdbMovie { Response = false });
 
-        _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object, _loggerMock.Object);
+        _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object, _logger);
     }
 
     [Fact]
