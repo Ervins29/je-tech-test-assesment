@@ -19,21 +19,15 @@ public partial class MovieDetails(IOmdbClient omdbClient, NavigationManager navi
 
         Movie = movie;
 
-        if (!movie.Response)
-        {
-            navigationManager.NavigateTo("/not-found");
-        }
-        
+        if (!movie.Response) navigationManager.NavigateTo("/not-found");
+
         IsLoading = false;
     }
 
     private string GetInitials(string name)
     {
         var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length >= 2)
-        {
-            return $"{parts[0][0]}{parts[parts.Length - 1][0]}".ToUpper();
-        }
+        if (parts.Length >= 2) return $"{parts[0][0]}{parts[parts.Length - 1][0]}".ToUpper();
         return parts.Length > 0 ? parts[0][0].ToString().ToUpper() : "?";
     }
 }

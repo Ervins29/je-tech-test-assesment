@@ -10,7 +10,7 @@ public partial class MovieCard(NavigationManager navigationManager)
 
     [Parameter]
     public bool Loading { get; set; }
-    
+
     private void RedirectToMovieDetails()
     {
         navigationManager.NavigateTo($"/MovieDetails/{Movie.ImdbId}");

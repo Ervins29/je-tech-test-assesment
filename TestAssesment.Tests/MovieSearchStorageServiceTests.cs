@@ -1,15 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Moq;
 using Shouldly;
 using TestAssesment.Data.DataAccess;
 using TestAssesment.Data.DataAccess.Models;
 using TestAssesment.Data.Services;
+using TestAssesment.Data.Services.Configurations;
 
 namespace TestAssesment.Tests;
 
-public class MovieSearchStorageServiceTests
+public class MovieSearchStorageServiceTests : IDisposable
 {
     private readonly DataContext _dataContext;
-    private MovieSearchStorageService MovieSearchStorageService => new(_dataContext);
+    private readonly IOptions<SearchConfiguration> _searchConfig;
+    private readonly MovieSearchStorageService _movieSearchStorageService;
 
     private readonly List<MovieSearchQuery> _seedData =
     [
@@ -52,14 +56,28 @@ public class MovieSearchStorageServiceTests
 
         _dataContext.Set<MovieSearchQuery>().AddRange(_seedData);
         _dataContext.SaveChanges();
+
+        _searchConfig = Options.Create(new SearchConfiguration
+        {
+            MaxSearchCount = 5,
+            MinSearchLength = 3
+        });
+
+        _movieSearchStorageService = new MovieSearchStorageService(_dataContext, _searchConfig);
+    }
+
+    public void Dispose()
+    {
+        _dataContext.Database.CloseConnection();
+        _dataContext.Dispose();
     }
 
     [Fact]
     public async Task MovieSearchStorageService_WhenSaveSearchQuery_ShouldSave()
     {
-        await MovieSearchStorageService.SaveMovieSearch("Test Movie", "55555");
+        await _movieSearchStorageService.SaveMovieSearch("Test Movie", "55555");
 
-        var recentMovies = await MovieSearchStorageService.GetRecentSearches();
+        var recentMovies = await _movieSearchStorageService.GetRecentSearches();
 
         recentMovies.ShouldNotBeNull();
 
@@ -76,9 +94,9 @@ public class MovieSearchStorageServiceTests
         const string existingMovieTitle = "Unknown movie";
         const string existingMovieId = "444";
 
-        await MovieSearchStorageService.SaveMovieSearch(existingMovieTitle, existingMovieId);
+        await _movieSearchStorageService.SaveMovieSearch(existingMovieTitle, existingMovieId);
 
-        var recentMovies = await MovieSearchStorageService.GetRecentSearches();
+        var recentMovies = await _movieSearchStorageService.GetRecentSearches();
 
         recentMovies.ShouldNotBeNull();
         recentMovies.Count.ShouldBeLessThanOrEqualTo(4);
@@ -96,10 +114,10 @@ public class MovieSearchStorageServiceTests
         const string testMovie = "Test Movie";
         const string testMovie2 = "Test Movie2";
 
-        await MovieSearchStorageService.SaveMovieSearch(testMovie, "55555");
-        await MovieSearchStorageService.SaveMovieSearch(testMovie2, "66666");
+        await _movieSearchStorageService.SaveMovieSearch(testMovie, "55555");
+        await _movieSearchStorageService.SaveMovieSearch(testMovie2, "66666");
 
-        var recentMovies = await MovieSearchStorageService.GetRecentSearches();
+        var recentMovies = await _movieSearchStorageService.GetRecentSearches();
 
         recentMovies.ShouldNotBeNull();
         recentMovies.Count.ShouldBeLessThanOrEqualTo(5);
@@ -111,7 +129,7 @@ public class MovieSearchStorageServiceTests
     [Fact]
     public async Task MovieSearchStorageService_WhenSaveSearchQuery_ShouldReturnCorrectSearch()
     {
-        var recentMovies = await MovieSearchStorageService.GetRecentSearches();
+        var recentMovies = await _movieSearchStorageService.GetRecentSearches();
 
         recentMovies.ShouldNotBeNull();
         recentMovies.Count.ShouldBeLessThanOrEqualTo(4);
@@ -127,5 +145,22 @@ public class MovieSearchStorageServiceTests
 
         recentMovies.ShouldContain(x => x.Title == "Unknown movie");
         recentMovies.ShouldContain(x => x.ImdbId == "444");
+    }
+
+    [Fact]
+    public async Task MovieSearchStorageService_WhenSavingDuplicateWithDifferentCase_ShouldNotSave()
+    {
+        const string movieTitle = "the matrix";
+        const string movieId = "111";
+
+        await _movieSearchStorageService.SaveMovieSearch(movieTitle, movieId);
+
+        var recentMovies = await _movieSearchStorageService.GetRecentSearches();
+
+        recentMovies.ShouldNotBeNull();
+        recentMovies.Count.ShouldBe(4);
+
+        recentMovies.Count(x => x.Title.Equals("The Matrix", StringComparison.OrdinalIgnoreCase))
+            .ShouldBe(1);
     }
 }

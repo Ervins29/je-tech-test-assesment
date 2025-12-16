@@ -5,18 +5,19 @@
 
 <MudContainer MaxWidth="MaxWidth.False" Style="min-height: 60vh">
     <MudContainer MaxWidth="MaxWidth.Large" Class="d-flex flex-column">
-        
+
         <MudStack AlignItems="AlignItems.Center" Class="mb-2 flex-1">
-            <MudText Typo="Typo.h1" Color="Color.Primary" Align="Align.Center" Class="mb-6" Style="font-weight: 800; text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);">
+            <MudText Typo="Typo.h1" Color="Color.Primary" Align="Align.Center" Class="mb-6"
+                     Style="font-weight: 800; text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);">
                 Discover Your Next Favorite Movie
             </MudText>
             <MudText Typo="Typo.h5" Class="mb-6" Style="color: rgba(255, 255, 255, 0.9);">
                 Search from millions of movies worldwide
             </MudText>
-            
+
             <MudPaper Elevation="5" Class="pa-2 rounded-pill mb-6" Style="width: 100%; max-width: 700px;">
                 <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                    <MudIcon Icon="@Icons.Material.Filled.Search" Style="color: #999;" />
+                    <MudIcon Icon="@Icons.Material.Filled.Search" Style="color: #999;"/>
                     <MudTextField @bind-Value="SearchText"
                                   Placeholder="Search for movies by title..."
                                   Variant="Variant.Text"
@@ -33,7 +34,7 @@
                     </MudButton>
                 </MudStack>
             </MudPaper>
-            
+
             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Wrap="Wrap.Wrap" Justify="Justify.Center">
                 @if (SavedSearchDtos.Count > 0)
                 {
@@ -47,7 +48,7 @@
                     </MudChip>
                 }
             </MudStack>
-            
+
             @if (SearchResult?.Error is not null)
             {
                 <MudAlert Severity="Severity.Error" Style="width: 100%; max-width: 700px; margin-top: 2rem;">

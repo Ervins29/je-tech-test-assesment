@@ -6,7 +6,8 @@ namespace TestAssesment.Integrations.Omdb.Handlers;
 
 public class HttpApiKeyHandler(IOptions<OmdbConfiguration> omdbOptions) : DelegatingHandler
 {
-    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
     {
         var uriBuilder = new UriBuilder(request.RequestUri!);
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);

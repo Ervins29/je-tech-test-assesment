@@ -12,9 +12,7 @@ public partial class HeroBlock
     private int GetStarRating(string imdbRating)
     {
         if (double.TryParse(imdbRating, NumberStyles.Float, CultureInfo.InvariantCulture, out var rating))
-        {
             return (int)Math.Round(rating / 2);
-        }
 
         return 0;
     }

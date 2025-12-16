@@ -1,6 +1,7 @@
 # Movie Search Application
 
-A Blazor Server application that allows users to search for movies using the OMDB API and maintains a history of last 5 searches.
+A Blazor Server application that allows users to search for movies using the OMDB API and maintains a history of last 5
+searches.
 
 ## Technology Stack
 
@@ -54,7 +55,9 @@ Edit `src/TestAssesment.Web/appsettings.json`:
 cd src/TestAssesment.Web
 dotnet run
 ```
+
 ## Testing
+
 ### Test can be run from the `TestAssesment.Tests` project directory
 
 ```bash
@@ -76,7 +79,8 @@ TestAssesment/
 
 ## Database
 
-The application uses SQLite with a local database file (`MovieSearch.db`) that is automatically created on first run. The database stores:
+The application uses SQLite with a local database file (`MovieSearch.db`) that is automatically created on first run.
+The database stores:
 
 - Movie search history (title, IMDB ID, timestamp)
 - Maximum of 5 entries

@@ -14,10 +14,7 @@ public class StringToBoolConverter : JsonConverter<bool>
             {
                 var stringValue = reader.GetString();
 
-                if (bool.TryParse(stringValue, out var result))
-                {
-                    return result;
-                }
+                if (bool.TryParse(stringValue, out var result)) return result;
 
                 break;
             }

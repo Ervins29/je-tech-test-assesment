@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj" />
-      <ProjectReference Include="..\src\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj" />
+        <ProjectReference Include="..\src\TestAssesment.Data.Services\TestAssesment.Data.Services.csproj"/>
+        <ProjectReference Include="..\src\TestAssesment.Integrations.Omdb\TestAssesment.Integrations.Omdb.csproj"/>
     </ItemGroup>
 
 </Project>

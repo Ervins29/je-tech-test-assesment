@@ -30,7 +30,7 @@
                 @if (!string.IsNullOrEmpty(Movie.Runtime) && Movie.Runtime != "N/A")
                 {
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1" Class="mb-2">
-                        <MudIcon Icon="@Icons.Material.Filled.Schedule" Size="Size.Small" Style="color: #667eea;" />
+                        <MudIcon Icon="@Icons.Material.Filled.Schedule" Size="Size.Small" Style="color: #667eea;"/>
                         <MudText Typo="Typo.body1" Style="color: #666;">@Movie.Runtime</MudText>
                     </MudStack>
                 }
@@ -38,7 +38,7 @@
                 @if (!string.IsNullOrEmpty(Movie.Genre) && Movie.Genre != "N/A")
                 {
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1" Class="mb-2">
-                        <MudIcon Icon="@Icons.Material.Filled.LocalMovies" Size="Size.Small" Style="color: #667eea;" />
+                        <MudIcon Icon="@Icons.Material.Filled.LocalMovies" Size="Size.Small" Style="color: #667eea;"/>
                         <MudText Typo="Typo.body1" Style="color: #666;">
                             <strong>Genre:</strong> @Movie.Genre
                         </MudText>
@@ -48,7 +48,7 @@
                 @if (!string.IsNullOrEmpty(Movie.Director) && Movie.Director != "N/A")
                 {
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1" Style="margin-bottom: 0.75rem;">
-                        <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Small" Style="color: #667eea;" />
+                        <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Small" Style="color: #667eea;"/>
                         <MudText Typo="Typo.body1" Style="color: #666;">
                             <strong>Director:</strong> @Movie.Director
                         </MudText>
@@ -57,7 +57,7 @@
 
                 @if (!string.IsNullOrEmpty(Movie.Plot) && Movie.Plot != "N/A")
                 {
-                    <MudDivider Class="ma-4" />
+                    <MudDivider Class="ma-4"/>
                     <MudText Typo="Typo.body1" Style="color: #555; line-height: 1.6;">
                         @Movie.Plot
                     </MudText>

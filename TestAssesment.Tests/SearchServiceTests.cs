@@ -21,18 +21,18 @@ public class SearchServiceTests
     {
         Response = true,
         Title = "Test Movie",
-        ImdbId = "123456789"
+        ImdbId = "tt1234567"
     };
 
     public SearchServiceTests()
     {
         _omdbClientMock
-            .Setup(x => x.SearchMovies(_expectedMovie.Title))
+            .Setup(x => x.SearchMovies("Test Movie", null))
             .ReturnsAsync(_expectedMovie);
 
         _omdbClientMock
-            .Setup(x => x.SearchMovies(It.Is<string>(y => y != _expectedMovie.Title)))
-            .ReturnsAsync(new OmdbMovie { Response = false });
+            .Setup(x => x.SearchMovies(It.Is<string>(y => y != "Test Movie"), null))
+            .ReturnsAsync(new OmdbMovie { Response = false, Error = "Movie not found!" });
 
         _searchService = new SearchService(_omdbClientMock.Object, _movieSearchStorageServiceMock.Object, _logger);
     }
@@ -48,7 +48,7 @@ public class SearchServiceTests
         result.Title.ShouldBe(_expectedMovie.Title);
 
         _movieSearchStorageServiceMock.Verify(
-            x => x.SaveMovieSearch(testMovie, "123456789"),
+            x => x.SaveMovieSearch(testMovie, "tt1234567"),
             Times.Once);
     }
 
@@ -62,7 +62,31 @@ public class SearchServiceTests
         result.Response.ShouldBeFalse();
 
         _movieSearchStorageServiceMock.Verify(
-            x => x.SaveMovieSearch(testMovie, "1234"),
+            x => x.SaveMovieSearch(It.IsAny<string>(), It.IsAny<string>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task SearchMovie_WhenApiReturnsIncompleteData_ReturnsError()
+    {
+        var incompleteMovie = new OmdbMovie
+        {
+            Response = true,
+            Title = null,
+            ImdbId = "tt1234567"
+        };
+
+        _omdbClientMock
+            .Setup(x => x.SearchMovies("Incomplete Movie", null))
+            .ReturnsAsync(incompleteMovie);
+
+        var result = await _searchService.SearchMovie("Incomplete Movie");
+
+        result.Response.ShouldBeFalse();
+        result.Error.ShouldBe("Incomplete movie data returned from API");
+
+        _movieSearchStorageServiceMock.Verify(
+            x => x.SaveMovieSearch(It.IsAny<string>(), It.IsAny<string>()),
             Times.Never);
     }
 }

@@ -27,10 +27,8 @@ public static class ServiceCollectionExtensions
                 var omdbConfiguration = sp.GetRequiredService<IOptions<OmdbConfiguration>>().Value;
 
                 if (string.IsNullOrEmpty(omdbConfiguration.BaseUrl) || string.IsNullOrEmpty(omdbConfiguration.ApiKey))
-                {
                     throw new Exception("OmdbApi configuration is invalid");
-                }
-                
+
                 c.BaseAddress = new Uri(omdbConfiguration.BaseUrl);
             })
             .AddHttpMessageHandler<HttpApiKeyHandler>();
