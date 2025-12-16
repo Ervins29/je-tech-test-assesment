@@ -5,7 +5,7 @@ using TestAssesment.Integrations.Omdb.Models;
 
 namespace TestAssesment.Web.Services;
 
-public class SearchService(IOmdbClient client, IMovieSearchService movieSearchService)
+public class SearchService(IOmdbClient client, IMovieSearchStorageService movieSearchStorageService)
 {
     public async Task<OmdbMovie> SearchMovie(string title)
     {
@@ -13,7 +13,7 @@ public class SearchService(IOmdbClient client, IMovieSearchService movieSearchSe
 
         if (searchResult.Response)
         {
-            await movieSearchService.SaveMovieSearch(searchResult.Title, searchResult.ImdbId);
+            await movieSearchStorageService.SaveMovieSearch(searchResult.Title, searchResult.ImdbId);
         }
 
         return searchResult;
@@ -21,7 +21,7 @@ public class SearchService(IOmdbClient client, IMovieSearchService movieSearchSe
 
     public async Task<List<SavedSearchDto>> GetRecentSearches()
     {
-        var savedSearches = await movieSearchService.GetRecentSearches();
+        var savedSearches = await movieSearchStorageService.GetRecentSearches();
 
         return savedSearches.ToList();
     }

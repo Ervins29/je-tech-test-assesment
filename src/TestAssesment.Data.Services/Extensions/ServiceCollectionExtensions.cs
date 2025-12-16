@@ -6,7 +6,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services)
     {
-        services.AddScoped<IMovieSearchService, MovieSearchService>();
+        services.AddScoped<IMovieSearchStorageService, MovieSearchStorageService>();
 
         return services;
     }

@@ -1,17 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TestAssesment.Data.DataAccess;
 using TestAssesment.Data.DataAccess.Models;
 using TestAssesment.Data.Services.Models;
 
 namespace TestAssesment.Data.Services;
 
-public class MovieSearchService(DataContext dataContext) : IMovieSearchService
+public class MovieSearchStorageService(DataContext dataContext) : IMovieSearchStorageService
 {
     private DbSet<MovieSearchQuery> MovieSearches => dataContext.MovieSearchQueries;
 
     public async Task<IEnumerable<SavedSearchDto>> GetRecentSearches()
     {
-        var results = await MovieSearches.ToListAsync();
+        //Not sure if this needs to be sorted? I assume it not
+        var results = await MovieSearches.AsNoTracking().ToListAsync();
 
         return results.Select(x => new SavedSearchDto(x.MovieTitle, x.ImdbMovieId));
     }
@@ -19,7 +20,6 @@ public class MovieSearchService(DataContext dataContext) : IMovieSearchService
     public async Task SaveMovieSearch(string searchQuery, string imdbMovieId)
     {
         var savedMovieSearches = await MovieSearches
-            .AsNoTracking()
             .OrderByDescending(x => x.TimeStamp)
             .ToListAsync();
 
@@ -46,7 +46,7 @@ public class MovieSearchService(DataContext dataContext) : IMovieSearchService
     }
 }
 
-public interface IMovieSearchService
+public interface IMovieSearchStorageService
 {
     Task SaveMovieSearch(string searchQuery, string imdbMovieId);
 
